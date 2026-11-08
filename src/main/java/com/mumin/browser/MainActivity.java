@@ -40,19 +40,14 @@ public class MainActivity extends Activity {
         "<!doctype html><html><head><meta charset='utf-8'>"
         + "<meta name='viewport' content='width=device-width,initial-scale=1'>"
         + "<title>Mumin Browser</title><style>"
-        + "body{margin:0;background:#020c1a;color:#e8f6f4;font-family:sans-serif;text-align:center;padding:36px 18px}"
-        + "svg{width:140px;height:140px;margin-top:16px}"
-        + "h1{margin:6px 0 4px;font-size:24px;letter-spacing:2px;color:#14c8b4}"
+        + "body{margin:0;background:#020c1a;color:#e8f6f4;font-family:sans-serif;text-align:center;padding:30px 18px}"
         + "p{margin:0 0 22px;color:#7fa5a0;font-size:14px}"
         + "input{width:100%;max-width:520px;box-sizing:border-box;border:1px solid #1d3b52;background:#0b1d31;color:#fff;border-radius:28px;padding:14px 20px;font-size:16px;outline:none}"
         + ".g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:520px;margin:26px auto 0}"
         + ".g a{background:#0b1d31;border:1px solid #1d3b52;border-radius:14px;padding:14px 4px;color:#e8f6f4;text-decoration:none;font-size:13px}"
         + "</style></head><body>"
-        + "<svg viewBox='0 0 100 100'><g fill='none' stroke='#14c8b4' stroke-width='4' stroke-linecap='round'>"
-        + "<path d='M16 94V58C16 40 36 32 50 16C64 32 84 40 84 58V94'/>"
-        + "<circle cx='48' cy='64' r='14'/><path d='M58 74L70 86'/></g>"
-        + "<path fill='#14c8b4' d='M52 3a8 8 0 1 0 6 12a6.5 6.5 0 0 1-6-12z'/></svg>"
-        + "<h1>MUMIN BROWSER</h1><p>দ্রুত, সহজ, আপনার নিজের ব্রাউজার</p>"
+        + "<img src='https://mumin.local/logo.png' style='width:220px;height:220px;border-radius:28px;margin-top:8px'>"
+        + "<p>দ্রুত, সহজ, আপনার নিজের ব্রাউজার</p>"
         + "<form action='https://www.google.com/search' method='get'>"
         + "<input name='q' placeholder='Google-এ সার্চ করুন' autocomplete='off'></form>"
         + "<div class='g'>"
@@ -302,6 +297,15 @@ public class MainActivity extends Activity {
         cm.setAcceptThirdPartyCookies(w, true);
 
         w.setWebViewClient(new WebViewClient() {
+            @Override
+            public android.webkit.WebResourceResponse shouldInterceptRequest(WebView v, WebResourceRequest r) {
+                if ("https://mumin.local/logo.png".equals(r.getUrl().toString())) {
+                    return new android.webkit.WebResourceResponse("image/png", null,
+                        getResources().openRawResource(R.drawable.logo));
+                }
+                return null;
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
                 String u = r.getUrl().toString();
